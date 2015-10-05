@@ -1,15 +1,20 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 [RequireComponent(typeof(Controller2D))]
 public class Player : MonoBehaviour
 {
-	public float jumpHeight= 4;
+	public Text healthText;
+
+	public float jumpHeight;
+	public int maxHealth;
+	int health;
 	public float timetoJumpApex = .4f;
 	float accelerationTimeAirborne = .2f;
 	float accelerationTimeGrounded = .1f;
 
-	float moveSpeed = 10;
+	public float moveSpeed;
 	float gravity;
 	float jumpVelocity;
 
@@ -30,6 +35,9 @@ public class Player : MonoBehaviour
 
 		gravity = -(2 * jumpHeight) / Mathf.Pow (timetoJumpApex,2);
 		jumpVelocity = Mathf.Abs (gravity) * timetoJumpApex;
+		health = maxHealth;
+		healthText.text = "Health: " + health;
+
 		//print ("Gravity: " + gravity + "jv: " +jumpVelocity);
 	}
 
@@ -77,5 +85,26 @@ public class Player : MonoBehaviour
 		velocity.x = Mathf.SmoothDamp (velocity.x, targetVelocityX, ref velocityXSmoothing,(controller.collisions.below)?accelerationTimeGrounded:accelerationTimeAirborne);
 		velocity.y += gravity * Time.deltaTime;
 		controller.Move (velocity * Time.deltaTime);
+	}
+	void OnTriggerEnter2D(Collider2D col)
+	{
+		if(col.tag =="Enemy")
+		{
+			velocity.y = jumpVelocity/2;
+			canDoubleJump = false;
+			velocity.x = -5;
+			controller.Move (velocity * Time.deltaTime);
+			takeDamage(1);
+		}
+	}
+	void takeDamage(int i)
+	{
+		health -= i;
+		healthText.text = "Health: " + health;
+		if (health < 1) 
+		{
+			healthText.text = "Game Over :(";
+		}
+	
 	}
 }
