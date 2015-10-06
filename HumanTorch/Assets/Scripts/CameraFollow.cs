@@ -13,10 +13,10 @@ public class CameraFollow : MonoBehaviour {
 	public bool bounds;
 
 	public Vector3 minCameraPos;
-	public Vector3 maxcameraPos;
+	public Vector3 maxCameraPos;
 
-	void Start () {
-		player = GameObject.FindGameObjectWithTag ("Player");
+	void Start () 
+	{
 	
 	}
 
@@ -28,8 +28,8 @@ public class CameraFollow : MonoBehaviour {
 		transform.position = new Vector3 (posX, posY, transform.position.z);
 
 		if (bounds) {
-			transform.position = new Vector3(Mathf.Clamp(transform.position.x,minCameraPos.x,maxcameraPos.x),Mathf.Clamp (transform.position.y,minCameraPos.y,maxcameraPos.y),
-			                                 Mathf.Clamp (transform.position.z,minCameraPos.z,maxcameraPos.z));
+			transform.position = new Vector3(Mathf.Clamp(transform.position.x,minCameraPos.x,maxCameraPos.x),Mathf.Clamp (transform.position.y,minCameraPos.y,maxCameraPos.y),
+			                                 Mathf.Clamp (transform.position.z,minCameraPos.z,maxCameraPos.z));
 		}
 
 	}
