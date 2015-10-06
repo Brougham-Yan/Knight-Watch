@@ -48,7 +48,7 @@ public class TurretAI : MonoBehaviour {
 		}
 
 		if (curHealth <= 0) {
-			Destroy (gameObject);
+			anim.Play ("TurretDie");
 		}
 
 	}
@@ -67,6 +67,10 @@ public class TurretAI : MonoBehaviour {
 
 	public void Attack(bool attackingRight)
 	{
+		if(curHealth<=0)
+		{
+			return;
+		}
 		bulletTimer += Time.deltaTime;
 		if(bulletTimer >= shootInterval)
 		{
@@ -98,7 +102,13 @@ public class TurretAI : MonoBehaviour {
 	public void Damage(int damage)
 	{
 		curHealth -= damage;
+		gameObject.GetComponent<Animation> ().Play ("RedFlash");
+		GetComponent<AudioSource>().Play();
+	}
 
+	void DestroyGameObject()
+	{
+		Destroy(gameObject);
 	}
 
 }
