@@ -3,20 +3,27 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class HUD : MonoBehaviour {
+	
 
-	public Sprite[] HeartSprites;
-
-	public Image HeartUI;
-
-	public GameObject player;
+	public Image hpbar;
+	public Text hptext;
+	public Image mpbar;
+	public Text mptext;
+	private Player player;
 
 	void Start()
 	{
+		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<Player> ();
 	}
 
 	void Update()
 	{
-		HeartUI.sprite = HeartSprites [player.GetComponent<Player>().curHealth];
+		hpbar.fillAmount=(float)player.curHealth/player.maxHealth;
+
+		mpbar.fillAmount=(float)player.curMP/player.maxMP;
+
+		hptext.text=""+player.curHealth+"/"+player.maxHealth+"("+(float)player.curHealth/player.maxHealth*100+"%)";
+		mptext.text=""+player.curMP+"/"+player.maxMP+"("+(float)player.curMP/player.maxMP*100+"%)";
 	}
 
 

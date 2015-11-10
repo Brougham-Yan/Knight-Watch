@@ -14,14 +14,8 @@ public class AttackRange : MonoBehaviour {
 	{
 		if (col.CompareTag ("Player"))
 		{
-			if(isLeft)
-			{
-				turretAI.Attack (false);
-			}
-			else
-			{
-				turretAI.Attack(true);
-			}
+				turretAI.Attack ();
+				turretAI.aggro = true;
 		}
 
 	}
