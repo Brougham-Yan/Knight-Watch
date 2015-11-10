@@ -58,6 +58,12 @@ public class Player : MonoBehaviour
 
 	void Update(){
 
+		if (Input.GetKeyDown ("p")) 																													//FOR DEBUG ONLY
+		{
+			curHealth = maxHealth;
+			curMP = maxMP;
+		}
+
 		attacking = pa.attacking!=0;
 		anim.SetBool("Grounded",grounded);
 		anim.SetFloat("Speed", Mathf.Abs(velocity.x));
@@ -142,6 +148,9 @@ public class Player : MonoBehaviour
 	}
 	public void Damage(int d, float posX)
 	{
+		if(Input.GetKey("s"))																																//THIS SHOULDN'T BE HERE
+		   return;
+
 		curHealth -= d;
 
 		if (d < 0)

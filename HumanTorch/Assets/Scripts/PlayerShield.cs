@@ -7,7 +7,7 @@ public class PlayerShield : MonoBehaviour {
 	
 	private float shieldTimer=0;
 	
-	private float shieldCd = 10f;
+	private float shieldCd = 1f;
 
 	private float interval;
 	
