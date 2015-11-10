@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class TurretAI : MonoBehaviour {
+public class TurretAI : RaycastController {
 	
 	public int maxHealth = 100;
 	public int curHealth;
@@ -18,8 +18,23 @@ public class TurretAI : MonoBehaviour {
 	public GameObject bullet;
 	public Transform target;
 	public Animator anim;
-	public Transform shootPointLeft;
-	public Transform shootPointRight;
+	public Transform shootPoint;
+
+	public bool aggro;
+
+	public Vector3 move;
+
+	private bool notatEdge;
+	public Transform edgeCheck;
+	public LayerMask collisionmask;
+	public float radius;
+
+	public float dist;
+
+	public bool moving;
+
+	public float movecd = 2f;
+	public float movetimer  = 0;
 
 
 	void Awake()
@@ -27,24 +42,109 @@ public class TurretAI : MonoBehaviour {
 		anim = gameObject.GetComponent<Animator>();
 
 	}
-	void Start()
+	public override void Start()
 	{
+		base.Start ();
 		curHealth = maxHealth;
-
 	}
 
 	void Update()
 	{
+
 		anim.SetBool ("Awake", awake);
-
 		RangeCheck ();
+		if(awake)
+		{
 
-		if (target.transform.position.x > transform.position.x) {
-			lookingRight = true;
-			transform.localScale = new Vector3 (-1, 1, 1);
-		} else {
-			lookingRight = false;
-			transform.localScale = new Vector3 (1, 1, 1);
+			UpdateRayCastOrigins ();
+			
+			Vector3 velocity = move * Time.deltaTime;
+
+			notatEdge = Physics2D.OverlapCircle (edgeCheck.position, radius, collisionmask);
+
+			if(aggro)
+			{
+
+				if(Mathf.Abs(target.transform.position.x - transform.position.x) >dist)
+				{
+					
+					if(lookingRight&&notatEdge)
+					{
+						velocity.x = Mathf.Abs(velocity.x);
+						
+						transform.Translate (velocity);
+					}
+					if(!lookingRight&&notatEdge)
+					{
+						velocity.x = -1 * Mathf.Abs(velocity.x);
+						transform.Translate (velocity);
+					}
+				}
+				if (target.transform.position.x > transform.position.x) {
+					lookingRight = true;
+					transform.localScale = new Vector3 (-1, 1, 1);
+				} else {
+					lookingRight = false;
+					transform.localScale = new Vector3 (1, 1, 1);
+				}
+			}
+			else
+			{
+
+				if(movetimer>0)
+				{
+					movetimer -= Time.deltaTime;
+				}
+				else
+				{
+
+					movetimer = movecd;
+					int num = Random.Range (1,4);
+
+					//print (num);
+					switch(num)
+					{
+						case 1://keep moving
+							moving = true;
+							break;
+						case 2:// turn
+							lookingRight = !lookingRight;
+							moving = true;
+							break;
+						case 3:
+							moving =false;
+							//stand
+							break;
+						default:
+							print ("sick nasty");
+							break;
+					}
+
+
+
+				}
+
+				if(!notatEdge)
+				{
+					lookingRight = !lookingRight;
+				}
+
+				if(moving)
+				if(lookingRight)
+				{
+					transform.localScale = new Vector3 (-1, 1, 1);
+					
+					velocity.x = Mathf.Abs(velocity.x);
+					
+					transform.Translate (velocity);
+				}
+				else
+				{
+					transform.localScale = new Vector3 (1, 1, 1);
+					velocity.x = -1 * Mathf.Abs(velocity.x);
+					transform.Translate (velocity);
+				}
+			}
 		}
 
 		if (curHealth <= 0) {
@@ -61,11 +161,12 @@ public class TurretAI : MonoBehaviour {
 			awake = true;
 		}
 		if (distance > wakeRange) {
+			aggro = false;
 			awake = false;
 		}
 	}
 
-	public void Attack(bool attackingRight)
+	public void Attack()
 	{
 		if(curHealth<=0)
 		{
@@ -77,25 +178,12 @@ public class TurretAI : MonoBehaviour {
 			Vector2 direction = target.transform.position - transform.position;
 			direction.Normalize();
 
-			if(!attackingRight)
-			{
 				GameObject bulletClone;
-				bulletClone = Instantiate(bullet, shootPointLeft.transform.position, shootPointLeft.transform.rotation) as GameObject;
+				bulletClone = Instantiate(bullet, shootPoint.transform.position, shootPoint.transform.rotation) as GameObject;
 				bulletClone.GetComponent<Rigidbody2D>().velocity = direction*bulletSpeed;
 
 				bulletTimer = 0;
 
-
-
-			}
-			if(attackingRight)
-			{
-				GameObject bulletClone;
-				bulletClone = Instantiate(bullet, shootPointRight.transform.position, shootPointRight.transform.rotation) as GameObject;
-				bulletClone.GetComponent<Rigidbody2D>().velocity = direction*bulletSpeed;
-				
-				bulletTimer = 0;
-			}
 		}
 	}
 
@@ -103,7 +191,7 @@ public class TurretAI : MonoBehaviour {
 	{
 		curHealth -= damage;
 		gameObject.GetComponent<Animation> ().Play ("RedFlash");
-		GetComponent<AudioSource>().Play();
+
 	}
 
 	void DestroyGameObject()

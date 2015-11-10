@@ -2,49 +2,60 @@
 using System.Collections;
 
 public class PlayerAttack : MonoBehaviour {
-	public GameObject player;
-	private bool attacking = false;
-	private bool blocking = false;
+	public int attacking = 0;
 
 	private float attackTimer=0;
-	private float blockTimer=0;
 
-	private float attackCd = 0.4f;
-	private float blockCd = 0.5f;
+	private float attackCd = 0.32f;
 
-
+	private float attack2Cd = 0.31f;
+	
 	public Collider2D attackTrigger;
-	public Collider2D blockTrigger;
 
 	private Animator anim;
+
+	public AudioClip whipAttack;
+	public AudioClip beamAttack;
+
+	public GameObject bullet;
+	public Transform shootPoint;
+	public float bulletSpeed = 100;
+	private Player p;
+	public int mpcost = 10;
 
 	void Awake()
 	{
 		anim = gameObject.GetComponent<Animator> ();
 		attackTrigger.enabled = false;
-		blockTrigger.enabled = false;
+		p = GetComponent<Player> ();
 	}
 
 	void Update()
 	{
-		if (Input.GetKeyDown ("g") && !attacking && !blocking)
+		if (Input.GetKeyDown ("f") && attacking==0)
 		{
-			blocking = true;
-			blockTimer = blockCd;
-			
-			//blockTrigger.enabled = true;
-			player.GetComponent<Player>().isVulnerable = false;
-		}
-		if (Input.GetKeyDown ("f") && !attacking && !blocking)
-		{
-			attacking = true;
+			attacking = 1;
 			attackTimer = attackCd;
 
 			attackTrigger.enabled = true;
+
+			AudioSource.PlayClipAtPoint(whipAttack, shootPoint.position);
 		}
 
+		if(Input.GetKeyDown ("s") && attacking==0 && p.mana (mpcost))
+		{
+			AudioSource.PlayClipAtPoint(beamAttack, shootPoint.position);
+			attacking = 2;
+			attackTimer = attack2Cd;
+			GameObject bulletClone;
+			Vector2 dir = new Vector2(GetComponent <Transform>().transform.localScale.x,0);
+			bulletClone = Instantiate(bullet, shootPoint.transform.position, shootPoint.transform.rotation) as GameObject;
+			bulletClone.GetComponent <Transform>().localScale= new Vector3(GetComponent <Transform>().transform.localScale.x,1,1);
+			bulletClone.GetComponent<Rigidbody2D>().velocity = dir*bulletSpeed;
 
-		if (attacking)
+		}
+
+		if (attacking!=0)
 		{
 			if(attackTimer>0)
 			{
@@ -52,22 +63,10 @@ public class PlayerAttack : MonoBehaviour {
 			}
 			else
 			{
-				attacking = false;
+				attacking = 0;
 				attackTrigger.enabled = false;
 			}
 		}
-		if (blocking) {
-			if (blockTimer > 0) {
-				blockTimer -= Time.deltaTime;
-			} 
-			else 
-			{
-				blocking = false;
-				blockTrigger.enabled = false;
-				player.GetComponent<Player>().isVulnerable = true;
-			}
-		}
-		anim.SetBool ("Attacking", attacking);
-		anim.SetBool ("Blocking", blocking);
+		anim.SetInteger ("Attacking", attacking);
 	}
 }
