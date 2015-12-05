@@ -36,6 +36,7 @@ public class FlyAI : RaycastController {
 	void Awake()
 	{
 		anim = gameObject.GetComponent<Animator>();
+		target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
 		
 	}
 	public override void Start()
@@ -46,6 +47,11 @@ public class FlyAI : RaycastController {
 	
 	void Update()
 	{
+		if (curHealth <= 0) {
+			anim.Play ("EnemyDie");
+			return;
+		}
+
 		RangeCheck ();
 	//	anim.SetBool ("Awake", awake);
 	//	anim.SetBool ("moving", moving);
@@ -131,11 +137,7 @@ public class FlyAI : RaycastController {
 				dist+=velocity.x;
 			}
 		}
-		
-		if (curHealth <= 0) {
-			anim.Play ("EnemyDie");
-		}
-		
+
 	}
 	
 	void RangeCheck()

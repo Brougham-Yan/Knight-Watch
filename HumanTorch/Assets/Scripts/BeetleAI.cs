@@ -43,6 +43,7 @@ public class BeetleAI : RaycastController {
 	void Awake()
 	{
 		anim = gameObject.GetComponent<Animator>();
+		target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
 		hitBox.enabled = false;
 		
 	}
@@ -54,10 +55,17 @@ public class BeetleAI : RaycastController {
 	
 	void Update()
 	{
-		
+		if (curHealth <= 0) {
+			anim.Play ("EnemyDie");
+			return;
+		}
+
 		RangeCheck ();
 		//anim.SetBool ("Awake", awake);
 		//anim.SetBool ("moving", moving);
+
+
+
 		if(awake)
 		{
 			
@@ -163,11 +171,7 @@ public class BeetleAI : RaycastController {
 				}
 			}
 		}
-		
-		if (curHealth <= 0) {
-			anim.Play ("EnemyDie");
-		}
-		
+
 	}
 	
 	void RangeCheck()

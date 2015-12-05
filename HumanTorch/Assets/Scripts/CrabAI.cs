@@ -43,6 +43,7 @@ public class CrabAI : RaycastController {
 	void Awake()
 	{
 		anim = gameObject.GetComponent<Animator>();
+		target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
 		
 	}
 	public override void Start()
@@ -53,6 +54,10 @@ public class CrabAI : RaycastController {
 	
 	void Update()
 	{
+		if (curHealth <= 0) {
+			anim.Play ("EnemyDie");
+			return;
+		}
 
 		RangeCheck ();
 		anim.SetBool ("Awake", awake);
@@ -162,10 +167,7 @@ public class CrabAI : RaycastController {
 				}
 			}
 		}
-		
-		if (curHealth <= 0) {
-			anim.Play ("EnemyDie");
-		}
+
 		
 	}
 	

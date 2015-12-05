@@ -6,7 +6,7 @@ public class PlayerAttack : MonoBehaviour {
 
 	private float attackTimer=0;
 
-	private float attackCd = 0.32f;
+	private float attackCd = 0.29f;
 
 	private float attack2Cd = 0.31f;
 	
@@ -32,19 +32,16 @@ public class PlayerAttack : MonoBehaviour {
 
 	void Update()
 	{
-		if (Input.GetKeyDown ("f") && attacking==0)
+		if ((Input.GetKeyDown ("f") || Input.GetKeyDown(KeyCode.JoystickButton2)) && attacking==0)
 		{
 			attacking = 1;
 			attackTimer = attackCd;
 
 			attackTrigger.enabled = true;
-
-			AudioSource.PlayClipAtPoint(whipAttack, shootPoint.position);
 		}
 
-		if(Input.GetKeyDown ("s") && attacking==0 && p.mana (mpcost))
+		if((Input.GetKeyDown ("s")|| Input.GetKeyDown(KeyCode.JoystickButton3)) && attacking==0 && p.mana (mpcost))
 		{
-			AudioSource.PlayClipAtPoint(beamAttack, shootPoint.position);
 			attacking = 2;
 			attackTimer = attack2Cd;
 			GameObject bulletClone;
@@ -68,5 +65,14 @@ public class PlayerAttack : MonoBehaviour {
 			}
 		}
 		anim.SetInteger ("Attacking", attacking);
+	}
+
+	public void playwhipaudio()
+	{
+		AudioSource.PlayClipAtPoint(whipAttack, shootPoint.position);
+	}
+	public void playbeamaudio()
+	{
+		AudioSource.PlayClipAtPoint(beamAttack, shootPoint.position);
 	}
 }

@@ -7,7 +7,7 @@ public class PlayerShield : MonoBehaviour {
 	
 	private float shieldTimer=0;
 	
-	private float shieldCd = 1f;
+	private float shieldCd = 0.7f;
 
 	private float interval;
 	
@@ -22,9 +22,11 @@ public class PlayerShield : MonoBehaviour {
 	private GameObject s;
 
 	private Animator anim;
+	private Animator anim2;
 
 	void Awake()
 	{
+		anim2 = gameObject.GetComponent<Animator> ();
 		p = GetComponent<Player> ();
 	}
 
@@ -35,10 +37,10 @@ public class PlayerShield : MonoBehaviour {
 			shieldTimer -= Time.deltaTime;
 		} else {
 
-				if (Input.GetKey ("d")) {
+			if ((Input.GetKey ("d") || Input.GetKey (KeyCode.JoystickButton1))&&p.grounded&&((int)p.velocity.x)==0) {
 					if (!shielding && p.curMP>mpcost) {
 						shielding = true;
-						Vector3 pos = new Vector3(transform.position.x,transform.position.y+1,transform.position.z);
+						Vector3 pos = new Vector3(transform.position.x,transform.position.y+2,transform.position.z);
 						s = Instantiate (shield, pos, transform.rotation) as GameObject;
 						anim = s.GetComponent<Animator> ();
 						anim.SetBool ("hold", shielding);
@@ -49,20 +51,22 @@ public class PlayerShield : MonoBehaviour {
 						if(p.curMP>=mpcost2)
 						{
 							interval+=Time.deltaTime;
-							if(interval>=1)
+							if(interval>=0.1f)
 							{
-								interval-=1;
+								interval-=0.1f;
 								p.mana (mpcost2);
 							}
 						}
 					}
 				}
-			if ((Input.GetKeyUp ("d") || p.curMP<mpcost2)&&shielding==true) {
+			if ((Input.GetKeyUp ("d")|| Input.GetKeyUp(KeyCode.JoystickButton1) || p.curMP<mpcost2)&&shielding==true) {
 				shielding = false;
 				anim.SetBool ("hold", shielding);
 				shieldTimer = shieldCd;
 			}
 
 		}
+
+		anim2.SetBool ("Shielding", shielding);
 	}
 }

@@ -3,6 +3,9 @@ using System.Collections;
 
 public class Fire : MonoBehaviour {
 
+
+	public int damage;
+
 	public float damagecd;
 	float damagetimer;
 
@@ -20,7 +23,7 @@ public class Fire : MonoBehaviour {
 
 		if(col.CompareTag ("Player"))
 		{
-			col.GetComponent<Player>().Damage(1, transform.position.x);
+			col.GetComponent<Player>().Damage(damage, transform.position.x);
 			damagetimer = damagecd;
 		}
 	}
@@ -34,7 +37,7 @@ public class Fire : MonoBehaviour {
 			}
 			else
 			{
-				col.GetComponent<Player>().Damage(1, transform.position.x);
+				col.GetComponent<Player>().Damage(damage, transform.position.x);
 				damagetimer = damagecd;
 
 			}

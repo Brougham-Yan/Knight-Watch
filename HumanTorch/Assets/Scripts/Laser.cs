@@ -25,7 +25,7 @@ public class Laser : MonoBehaviour {
 			{
 				hit = true;
 				GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
-				GetComponent<Animator>().SetBool("Hit",true);
+				Destroy(gameObject);
 			}
 		}
 	}

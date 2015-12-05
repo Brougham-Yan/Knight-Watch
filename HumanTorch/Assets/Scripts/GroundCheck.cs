@@ -11,18 +11,18 @@ public class GroundCheck : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D col){
-		if (col.CompareTag ("Floor"))
+		if (col.CompareTag ("Floor")||col.name.Contains("Box"))
 		player.grounded = true;
 	}
 
 	void OnTriggerStay2D(Collider2D col)
 	{
-		if (col.CompareTag ("Floor"))
+		if (col.CompareTag ("Floor")||col.name.Contains("Box"))
 		player.grounded = true;
 	}
 
 	void OnTriggerExit2D(Collider2D col){
-		if (col.CompareTag ("Floor"))
+		if (col.CompareTag ("Floor")||col.name.Contains("Box"))
 		player.grounded = false;
 	}
 }

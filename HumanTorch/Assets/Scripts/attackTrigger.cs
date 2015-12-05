@@ -10,7 +10,12 @@ public class attackTrigger : MonoBehaviour {
 	public Player player;
 	void OnTriggerEnter2D(Collider2D col)
 	{
-		if(col.isTrigger != true && col.CompareTag ("Enemy"))
+		if(GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().bonus==3)
+		{
+			dmg*=2;
+		}
+
+		if(col.isTrigger != true &&( col.CompareTag ("Enemy")||col.CompareTag ("Boss")))
 		{
 			GameObject wh;
 			float x = Random.Range(col.transform.position.x-(col.bounds.size.x/2),col.transform.position.x+(col.bounds.size.x/2));
@@ -18,6 +23,11 @@ public class attackTrigger : MonoBehaviour {
 			Vector3 pos = new Vector3(x,y,player.transform.position.z);
 			wh = Instantiate(whiphit, pos, player.transform.rotation) as GameObject;
 			col.SendMessageUpwards("Damage",dmg);
+		}
+
+		if(GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().bonus==3)
+		{
+			dmg/=2;
 		}
 	}
 }

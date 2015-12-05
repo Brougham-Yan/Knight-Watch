@@ -1,0 +1,37 @@
+Initialize engine version: 5.1.3f1 (b0a23b31c3d8)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 760 (ID=0x1187)
+    Vendor:   NVIDIA
+    VRAM:     1990 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\LMAO\Desktop\HumanTorch\test_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\LMAO\Desktop\HumanTorch\test_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\LMAO\Desktop\HumanTorch\test_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\LMAO\Desktop\HumanTorch\test_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\LMAO\Desktop\HumanTorch\test_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\LMAO\Desktop\HumanTorch\test_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\LMAO\Desktop\HumanTorch\test_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\LMAO\Desktop\HumanTorch\test_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\LMAO\Desktop\HumanTorch\test_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
+Loading C:\Users\LMAO\Desktop\HumanTorch\test_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
+Platform assembly: C:\Users\LMAO\Desktop\HumanTorch\test_Data\Managed\System.Core.dll (this message is harmless)
+- Completed reload, in  0.055 seconds
+desktop: 1920x1080 144Hz; virtual: 3840x1080 at -1920,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+Platform assembly: C:\Users\LMAO\Desktop\HumanTorch\test_Data\Managed\System.dll (this message is harmless)
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 5.030121 ms
+
+Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 199.
+Total: 0.343033 ms (FindLiveObjects: 0.048205 ms CreateObjectMapping: 0.032033 ms MarkObjects: 0.252843 ms  DeleteObjects: 0.004976 ms)
+
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.771903 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 217.
+Total: 0.239781 ms (FindLiveObjects: 0.022703 ms CreateObjectMapping: 0.012751 ms MarkObjects: 0.199662 ms  DeleteObjects: 0.003732 ms)
+

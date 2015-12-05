@@ -7,8 +7,12 @@ public class Beam : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
+		if(GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().bonus==3)
+		{
+			dmg*=2;
+		}
 		if (col.isTrigger != true) {
-			if(col.CompareTag ("Enemy"))
+			if(col.CompareTag ("Enemy")||col.CompareTag ("Boss"))
 			{
 				col.SendMessageUpwards("Damage",dmg);
 				Destroy(gameObject);
@@ -17,6 +21,10 @@ public class Beam : MonoBehaviour {
 			{
 				Destroy(gameObject);
 			}
+		}
+		if(GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().bonus==3)
+		{
+			dmg/=2;
 		}
 	}
 }

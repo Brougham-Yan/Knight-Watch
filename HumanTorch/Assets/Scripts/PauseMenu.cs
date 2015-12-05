@@ -35,11 +35,31 @@ public class PauseMenu : MonoBehaviour {
 
 	public void Restart()
 	{
-		Application.LoadLevel (Application.loadedLevel);
+		Destroy(GameObject.FindGameObjectWithTag("Player"));
+
+
+		if (Application.loadedLevelName == "Boss") {
+			Application.LoadLevel ("Bossrespawn");
+
+		} else {
+			Application.LoadLevel (Application.loadedLevel);
+		}
 	}
 
 	public void Quit()
 	{
 		Application.Quit ();
+	}
+	public void boss()
+	{
+		Destroy(GameObject.FindGameObjectWithTag("Player"));
+		Application.LoadLevel ("Bossrespawn");
+	}
+
+	public void mainmenu()
+	{
+		Destroy(GameObject.FindGameObjectWithTag("Player"));
+		
+		Application.LoadLevel ("mainMenu");
 	}
 }

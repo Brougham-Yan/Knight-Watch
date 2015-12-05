@@ -22,6 +22,7 @@ public class RoachAI : RaycastController {
 	void Awake()
 	{
 		anim = gameObject.GetComponent<Animator>();
+		target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
 		
 	}
 	public override void Start()
@@ -32,6 +33,11 @@ public class RoachAI : RaycastController {
 	
 	void Update()
 	{
+		if (curHealth <= 0) {
+			anim.Play ("EnemyDie");
+			return;
+		}
+
 		RangeCheck ();
 		anim.SetBool ("Awake", awake);
 		if(awake)
@@ -44,10 +50,6 @@ public class RoachAI : RaycastController {
 				transform.localScale = new Vector3 (1, 1, 1);
 			}
 		}
-
-		if (curHealth <= 0) {
-			anim.Play ("EnemyDie");
-		} 
 		
 	}
 	
@@ -74,7 +76,7 @@ public class RoachAI : RaycastController {
 		
 		GameObject bulletClone;
 		bulletClone = Instantiate(bullet, shootPoint.transform.position, shootPoint.transform.rotation) as GameObject;
-		AudioSource.PlayClipAtPoint(flamethrower, shootPoint.transform.position);
+		AudioSource.PlayClipAtPoint(flamethrower, shootPoint.transform.position, 0.7f);
 
 	}
 	
